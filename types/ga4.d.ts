@@ -34,6 +34,8 @@
  * @property {string} trackingId
  * @property {GaOptions|any} [gaOptions]
  * @property {Object} [gtagOptions] New parameter
+ * @property {boolean} [titleCase=true] Whether to format event fields in Title Case
+ * @property {boolean} [redactingEmail=true] Whether to redact email addresses in event data
  */
 export class GA4 {
     reset: () => void;
@@ -42,6 +44,8 @@ export class GA4 {
     _hasLoadedGA: boolean;
     _isQueuing: boolean;
     _queueGtag: any[];
+    _titleCase?: boolean;
+    _redactingEmail?: boolean;
     _gtag: (...args: any[]) => void;
     gtag(...args: any[]): void;
     _loadGA: (GA_MEASUREMENT_ID: any, nonce: any, gtagUrl?: string) => void;
@@ -54,7 +58,9 @@ export class GA4 {
      * @param {boolean} [options.testMode=false]
      * @param {string} [options.gtagUrl=https://www.googletagmanager.com/gtag/js]
      * @param {GaOptions|any} [options.gaOptions]
-     * @param {Object} [options.gtagOptions] New parameter
+     * @param {Object} [options.gtagOptions] 
+     * @param {boolean} [options.titleCase=true] Whether to format event fields in Title Case
+     * @param {boolean} [options.redactingEmail=true] Whether to redact email addresses in event data
      */
     initialize: (GA_MEASUREMENT_ID: InitOptions[] | string, options?: {
         nonce?: string;
@@ -62,6 +68,8 @@ export class GA4 {
         gtagUrl?: string;
         gaOptions?: GaOptions | any;
         gtagOptions?: any;
+        titleCase?: boolean;
+        redactingEmail?: boolean;
     }) => void;
     _currentMeasurementId: string;
     set: (fieldsObject: any) => void;
@@ -115,8 +123,7 @@ export type UaEventOptions = {
 export type InitOptions = {
     trackingId: string;
     gaOptions?: GaOptions | any;
-    /**
-     * New parameter
-     */
     gtagOptions?: any;
+    titleCase?: boolean;
+    redactingEmail?: boolean;
 };
